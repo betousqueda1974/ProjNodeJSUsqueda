@@ -12,7 +12,7 @@ export const getAllProducts = async () => {
 
     return snapshot.docs.map( doc => new ProductModel({id: doc.id, ...doc.data()}))
 }
-/*
+
 export const getProductById = async (id) => {
     const docRef = doc(db,collectionName,id);
     const docSnap = await getDoc(docRef);
@@ -57,4 +57,4 @@ export const updateProduct =async (id, data) => {
     await updateDoc(docRef, data);
 
     return{id, ...docSnap.data(), ...data }
-}*/
+}

@@ -9,7 +9,7 @@ export const getProducts = async (req,res) => {
         res.status(500).json({msj:"Error al obtener todos los productos",error: err.message})
     }
 }
-/*
+
 export const getProduct = async (req, res) => {
     try{
         const {id} = req.params;
@@ -26,7 +26,7 @@ export const getProduct = async (req, res) => {
     }
 }
 
-export const createNewProuct = async (req,res)=> {
+export const createNewProduct = async (req,res)=> {
     try{
         const newProduct = await productService.createProduct(req.body)
         res.status(201).json({mjs:"Producto creado",producto: newProduct});
@@ -64,4 +64,4 @@ export const updateProductById = async (req,res) => {
     catch(err){
         res.status(500).json({msj:"Error al actualizar el producto",error: err.message});
     }
-}*/
+}
