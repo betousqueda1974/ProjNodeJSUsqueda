@@ -5,56 +5,56 @@ import { collection, getDoc, getDocs, doc, deleteDoc, updateDoc, addDoc } from "
 const collectionName = "productos"
 
 export const getAllProducts = async () => {
-    const productsCol = collection(db, collectionName);
-    const snapshot = await getDocs(productsCol)
+  const productsCol = collection(db, collectionName);
+  const snapshot = await getDocs(productsCol)
 
-    if (snapshot.empty) return []
+  if (snapshot.empty) return []
 
-    return snapshot.docs.map( doc => new ProductModel({id: doc.id, ...doc.data()}))
+  return snapshot.docs.map( doc => new ProductModel({id: doc.id, ...doc.data()}))
 }
 
 export const getProductById = async (id) => {
-    const docRef = doc(db,collectionName,id);
-    const docSnap = await getDoc(docRef);
+  const docRef = doc(db,collectionName,id);
+  const docSnap = await getDoc(docRef);
 
-    if(!docSnap.exists()) return null;
+  if(!docSnap.exists()) return null;
 
-    return new ProductModel({id: docSnap.id, ...docSnap.data()})
+  return new ProductModel({id: docSnap.id, ...docSnap.data()})
 }
 
 export const createProduct = async (data) => {
-    if(!data.nombre || !data.precio) {
-        throw new Error("Nombre y precio son campos obligatorios")
-    }
+  if(!data.nombre || !data.precio) {
+      throw new Error("Nombre y precio son campos obligatorios")
+  }
 
-    const productsCol = collection(db, collectionName);
-    const docRef = await addDoc(productsCol, {
-        nombre: data.nombre,
-        precio: Number(data.precio),
-        stock: Number(data.stock || 0),
-        descripcion: data.descripcion || "",
-        categoria: data.categoria || ""
-    })
-    return new ProductModel({id: docRef.id , ...data});
+  const productsCol = collection(db, collectionName);
+  const docRef = await addDoc(productsCol, {
+      nombre: data.nombre,
+      precio: Number(data.precio),
+      stock: Number(data.stock || 0),
+      descripcion: data.descripcion || "",
+      categoria: data.categoria || ""
+  })
+  return new ProductModel({id: docRef.id , ...data});
 }
 
 export const deleteProduct = async (id) => {
-    const docRef = doc(db, collectionName, id);
-    const docSnap = await getDoc(docRef)
+  const docRef = doc(db, collectionName, id);
+  const docSnap = await getDoc(docRef)
 
-    if(!docSnap.exists()) return null;
+  if(!docSnap.exists()) return null;
 
-    await deleteDoc(docRef);
-    return true;
+  await deleteDoc(docRef);
+  return true;
 }
 
 export const updateProduct =async (id, data) => {
-    const docRef = doc(db,collectionName,id);
-    const docSnap = await getDoc(docRef)
+  const docRef = doc(db,collectionName,id);
+  const docSnap = await getDoc(docRef)
 
-    if(!docSnap.exists()) return null;
+  if(!docSnap.exists()) return null;
 
-    await updateDoc(docRef, data);
+  await updateDoc(docRef, data);
 
-    return{id, ...docSnap.data(), ...data }
+  return{id, ...docSnap.data(), ...data }
 }
